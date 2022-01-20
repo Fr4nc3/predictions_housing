@@ -42,7 +42,7 @@
 
 ## Reference
 
-[Jupyter Notebook](https://github.com/Fr4nc3/predictions_housing/pp-solutions.ipynb)
+[Jupyter Notebook](https://github.com/Fr4nc3/predictions_housing/blob/main/pp-solutions.ipynb)
 
 ## Dataset cleaning
 
