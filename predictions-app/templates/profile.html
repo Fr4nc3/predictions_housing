@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+  {% block content %}
+
+    <section class="content-section">
+        <div class="container text-center">
+
+      {% if session_username is defined %}
+
+          <div class="row">
+          <h1>{{session_username}}'s Favorites</h1>
+
+          <form class="" action="{{ url_for('index') }}" method="GET">
+            <button class="btn btn-home" type="submit"> Home </button>
+          </form>
+        </div>
+        <br>
+
+        {% for f in fave_listings %}
+
+          <div class="row">
+              <div class="col-sm-3">
+              </div>   
+
+              <div class="col-sm-3">
+              <img width=200 height=200 class="img-thumbnail" src={{f.photourl}} alt="{{ f.row_id}} Photo">
+              </div>  
+
+              <div class="col-sm-6 text-left">          
+                 <h4> MLS number: <a href="{{url_for('info', row_id=f.row_id)}}">{{ f.row_id }}</a> </h4>
+                  <p>Beds Number: {{ f.beds }}<br>
+                  Baths Number: {{ f.baths }}<br>
+                  Listing Price: ${{ f.listprice }}</p>
+
+                  <form action="{{url_for('unlike', row_id=f.row_id)}}" method="POST">
+                  <input type="hidden" name="current_url" id="profile_url" value="profile" >
+                  <button class="btn-sm btn-danger" type="submit"> Remove </button>
+                </form>
+              </div> 
+          </div>    
+
+        {% endfor %}
+        {% endif %}
+
+      </div>
+  </section>
+{% endblock %}

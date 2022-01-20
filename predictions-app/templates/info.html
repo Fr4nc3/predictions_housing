@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+{% block content %}
+
+ <section class="content-section">
+        <div class="container text-center">
+
+  <h1>Property Details
+     {% if username is defined %}
+          {% if is_fave %}
+               | Your Favorite!
+          {% endif %}
+      {% endif %}</h1> <br>
+
+      <div class="col-sm-6">  
+    
+      <img class="img-thumbnail" src={{listing.photourl}} alt="{{ listing.row_id}} Photo" height="550" width="550">
+      </div>
+
+      <div class="col-sm-6 text-left">
+       <b>MLS # {{listing.mlsnum}}</b> <br><br>
+              <p>Bedrooms: <b>{{ listing.beds }}</b> | 
+              Bathrooms: <b>{{ listing.baths }}</b> |
+              Sqft: <b>{{ listing.sqft }}</b> |
+              Listing Price: <b>${{ listing.listprice }}</b> <br>
+              <blockquote><small>{{ listing.remarks }}</small></blockquote> </p>
+      
+      <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+      
+      {% if username is defined %}
+      {% if is_fave %}
+
+      <div class="btn-group mr-4" role="group" aria-label="First group">
+        <form action="{{url_for('unlike', row_id=listing.row_id)}}" method="POST">
+        <input type="hidden" name="current_url" id="info_url" value="info" >
+        <button class="btn-sm btn-delete" type="submit"> Remove from Favorites </button>
+      </form>
+      </div>
+
+      {% else %}
+      
+      <div class="btn-group mr-4" role="group" aria-label="First group">
+         <form action="{{url_for('like', row_id=listing.row_id)}}" method="POST">
+        <button class="btn-sm btn-primary"  type="submit"> Save to Favorites </button>
+      </form>
+      </div>
+      
+      {% endif %}
+
+      <div class="btn-group mr-4" role="group" aria-label="Third group">
+      <form action="{{url_for('profile', username=username)}}" method="GET">
+        <button class="btn-sm btn-primary" type="submit"> Favorites </button>
+      </form>
+      </div>
+
+      <div class="btn-group mr-4" role="group" aria-label="Fourth group">
+      <form action="{{ url_for('index') }}" method="GET">
+        <button class="btn-sm btn-home"  type="submit"> Home </button>
+      </form>
+      </div>
+
+      {% else %}
+
+      <div class="btn-group mr-2" role="group" aria-label="Fourth group">
+      <form action="{{ url_for('index') }}" method="GET">
+        <button class="btn-sm btn-home"  type="submit"> Home </button>
+      </form>
+      </div>
+
+     </div>  
+
+    </div>
+  </div>
+</section>
+
+{% endif %}
+{% endblock %}

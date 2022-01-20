@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Housing Price Predictions</title>
+
+    <!-- Bootstrap core CSS -->
+    <link
+        href="C:\14a\Labs\PricePredictions\2021-fa-t4-Price-Predictions\predictions-app\static\vendor\bootstrap\css\bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link
+        href="C:\14a\Labs\PricePredictions\2021-fa-t4-Price-Predictions\predictions-app\static\vendor\font-awesome\css\font-awesome.min.css"
+        rel="stylesheet">
+    <link
+        href="C:\14a\Labs\PricePredictions\2021-fa-t4-Price-Predictions\predictions-app\static\vendor\simple-line-icons\css\simple-line-icons.css"
+        rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic">
+
+    <!-- Custom styles for this template -->
+    <link href="C:\14a\Labs\PricePredictions\2021-fa-t4-Price-Predictions\predictions-app\static\css\landing-page.css"
+        rel="stylesheet">
+    <script
+        src="C:\14a\Labs\PricePredictions\2021-fa-t4-Price-Predictions\predictions-app\static\vendor\chart\js\chart.min.js"></script>
+    <script
+        src="C:\14a\Labs\PricePredictions\2021-fa-t4-Price-Predictions\predictions-app\static\vendor\bootstrap\js\popper.min.js"></script>
+    <script
+        src="C:\14a\Labs\PricePredictions\2021-fa-t4-Price-Predictions\predictions-app\static\vendor\jquery\jquery.min.js"></script>
+    <script
+        src="C:\14a\Labs\PricePredictions\2021-fa-t4-Price-Predictions\predictions-app\static\vendor\bootstrap\js\bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+
+<body>
+
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="facebook" viewBox="0 0 16 16">
+            <path
+                d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
+        </symbol>
+        <symbol id="instagram" viewBox="0 0 16 16">
+            <path
+                d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z" />
+        </symbol>
+        <symbol id="twitter" viewBox="0 0 16 16">
+            <path
+                d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
+        </symbol>
+    </svg>
+
+
+    <!-- Masthead -->
+    <div class="container">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+
+                <span class="fs-4"> <img
+                        src="C:\14a\Labs\PricePredictions\2021-fa-t4-Price-Predictions\predictions-app\static\images\house-price.png">Price
+                    Predictor</span>
+            </a>
+
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="/" class="nav-link active" aria-current="page">Home</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Features</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Saved Homes</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+            </ul>
+        </header>
+        <div>
+            <section class="content-section">
+                <form method="POST" action="/search">
+                    <div class="form-group col-lg-12">
+                        <div class="row">
+                            {% if results == true and showSearchBox==false %}
+                            <h3 class="mb-0">
+                                <button class="btn btn-lg btn-primary" name="modifySearch" value="modifySearch"
+                                    type="submit">
+                                    <span class="icon"></span>Modify Search
+                                </button>
+                            </h3>
+                            <input type="hidden" name="hiddenZipCode" value={{ zipCode }} />
+                            {% endif %}
+                            {% if results == false or showSearchBox==true%}
+                            <div id="collapseOne" class="col-lg-12 search-background collapse show">
+                                <br>
+                                <div class="row">
+                                    <div class="col-lg-12 center mx-auto white-label-font">
+                                        <div class="col-lg-12 div-opacity"><label for="zipCode">ZipCode</label></div>
+                                        <input type="text" name="zipCode" maxlength="5" value="{{zipCode}}"
+                                            style="text-align: center;font-weight: bold;" class="form-control"
+                                            aria-label="With textarea">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row white-label-font center">
+                                    <div class="col-lg-2 mx-auto">
+                                        <div class="col-lg-12 div-opacity">
+                                            <label for="beds">Beds</label>
+                                        </div>
+                                        <select name="beds" class="form-select dropdown-menu-macos mx-0 shadow"
+                                            style="position: static;">
+                                            <option selected>Select one</option>
+                                            <option value="1">1+</option>
+                                            <option value="2">2+</option>
+                                            <option value="3">3+</option>
+                                        </select>
+                                        <!-- <ul class="dropdown-menu dropdown-menu-macos mx-0 shadow">
+                                                                <li><a class="dropdown-item active" href="#">1+</a></li>
+                                                                <li><a class="dropdown-item" href="#">2+</a></li>
+                                                                <li><a class="dropdown-item" href="#">3+</a></li>
+                                                            </ul> -->
+                                    </div>
+                                    <div class="col-lg-2 mx-auto">
+                                        <div class="col-lg-12 div-opacity"><label for="baths">Baths</label></div>
+                                        <select name="baths" class="form-select dropdown-menu-macos mx-0 shadow"
+                                            style="position: static;">
+                                            <option selected>Select one</option>
+                                            <option value="1">1+</option>
+                                            <option value="2">2+</option>
+                                            <option value="3">3+</option>
+                                        </select>
+                                        <!-- <ul class="dropdown-menu dropdown-menu-macos mx-0 shadow">
+                                                                <li><a class="dropdown-item active" href="#">1+</a></li>
+                                                                <li><a class="dropdown-item" href="#">2+</a></li>
+                                                                <li><a class="dropdown-item" href="#">3+</a></li>
+                                                            </ul> -->
+                                    </div>
+                                    <div class="col-lg-2 mx-auto">
+                                        <div class="col-lg-12 div-opacity">
+                                            <label for="type">Type</label>
+                                        </div>
+                                        <div class="list-group mx-0">
+                                            <label class="list-group-item d-flex gap-2">
+                                                <input class="form-check-input flex-shrink-0" type="checkbox" value=""
+                                                    checked>
+                                                <span>
+                                                    Single Family Residence
+                                                </span>
+                                            </label>
+                                            <label class="list-group-item d-flex gap-2">
+                                                <input class="form-check-input flex-shrink-0" type="checkbox" value="">
+                                                <span>
+                                                    Townhouse
+                                                </span>
+                                            </label>
+                                            <label class="list-group-item d-flex gap-2">
+                                                <input class="form-check-input flex-shrink-0" type="checkbox" value="">
+                                                <span>
+                                                    Condo
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="col-lg-12">
+                                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#additionalFeatures" aria-expanded="true"
+                                                aria-controls="additionalFeatures">
+                                                Additional Features
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8"></div>
+                                </div>
+                                <br>
+                                <div class="collapse" id="additionalFeatures">
+                                    <div class="row white-label-font center">
+                                        <div class="col-lg-3 form-group">
+                                            <div class="col-lg-12 div-opacity">
+                                                <label for="hasStyle">Style</label>
+                                            </div>
+
+                                            <div class="col-lg-12 center">
+                                                <div class="input-group" style="display:grid;">
+                                                    <div id="radioBtn" class="btn-group">
+                                                        <a class="btn btn-primary btn-sm active" data-toggle="hasStyle"
+                                                            data-title="Y">YES</a>
+                                                        <a class="btn btn-primary btn-sm notActive"
+                                                            data-toggle="hasStyle" data-title="N">NO</a>
+                                                    </div>
+                                                    <input type="hidden" name="hasStyle" id="hasStyle">
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-3 form-group">
+                                            <div class="col-lg-12 div-opacity">
+                                                <label for="hasLevel">Level</label>
+                                            </div>
+
+                                            <div class="col-lg-12 center">
+                                                <div class="input-group" style="display:grid;">
+                                                    <div id="radioBtn" class="btn-group radioBtn">
+                                                        <a class="btn btn-primary btn-sm active" data-toggle="hasLevel"
+                                                            data-title="Y">YES</a>
+                                                        <a class="btn btn-primary btn-sm notActive"
+                                                            data-toggle="hasLevel" data-title="N">NO</a>
+                                                    </div>
+                                                    <input type="hidden" name="hasLevel" id="hasLevel">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-3 form-group">
+                                            <div class="col-lg-12 div-opacity">
+                                                <label for="hasGarage">Garage</label>
+                                            </div>
+
+                                            <div class="col-lg-12 center">
+                                                <div class="input-group" style="display:grid;">
+                                                    <div id="radioBtn" class="btn-group radioBtn">
+                                                        <a class="btn btn-primary btn-sm active" data-toggle="hasGarage"
+                                                            data-title="Y">YES</a>
+                                                        <a class="btn btn-primary btn-sm notActive"
+                                                            data-toggle="hasGarage" data-title="N">NO</a>
+                                                    </div>
+                                                    <input type="hidden" name="hasGarage" id="hasGarage">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-3 form-group">
+                                            <div class="col-lg-12 div-opacity">
+                                                <label for="hasCooling">Cooling</label>
+                                            </div>
+
+                                            <div class="col-lg-12 center">
+                                                <div class="input-group" style="display:grid;">
+                                                    <div id="radioBtn" class="btn-group radioBtn">
+                                                        <a class="btn btn-primary btn-sm active"
+                                                            data-toggle="hasCooling" data-title="Y">YES</a>
+                                                        <a class="btn btn-primary btn-sm notActive"
+                                                            data-toggle="hasCooling" data-title="N">NO</a>
+                                                    </div>
+                                                    <input type="hidden" name="hasCooling" id="hasCooling">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row white-label-font center">
+
+                                        <div class="col-lg-3 form-group">
+                                            <div class="col-lg-12 div-opacity">
+                                                <label for="hasElemSchool">Elementary School</label>
+                                            </div>
+
+                                            <div class="col-lg-12 center">
+                                                <div class="input-group" style="display:grid;">
+                                                    <div id="radioBtn" class="btn-group radioBtn">
+                                                        <a class="btn btn-primary btn-sm active"
+                                                            data-toggle="hasElemSchool" data-title="Y">YES</a>
+                                                        <a class="btn btn-primary btn-sm notActive"
+                                                            data-toggle="hasElemSchool" data-title="N">NO</a>
+                                                    </div>
+                                                    <input type="hidden" name="hasElemSchool" id="hasElemSchool">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-3 form-group">
+                                            <div class="col-lg-12 div-opacity">
+                                                <label for="hasJunSchool">Junior School</label>
+                                            </div>
+
+                                            <div class="col-lg-12 center">
+                                                <div class="input-group" style="display:grid;">
+                                                    <div id="radioBtn" class="btn-group radioBtn">
+                                                        <a class="btn btn-primary btn-sm active"
+                                                            data-toggle="hasJunSchool" data-title="Y">YES</a>
+                                                        <a class="btn btn-primary btn-sm notActive"
+                                                            data-toggle="hasJunSchool" data-title="N">NO</a>
+                                                    </div>
+                                                    <input type="hidden" name="hasJunSchool" id="hasJunSchool">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-3 form-group">
+                                            <div class="col-lg-12 div-opacity">
+                                                <label for="hasHighSchool">High School</label>
+                                            </div>
+
+                                            <div class="col-lg-12 center">
+                                                <div class="input-group" style="display:grid;">
+                                                    <div id="radioBtn" class="btn-group radioBtn">
+                                                        <a class="btn btn-primary btn-sm active"
+                                                            data-toggle="hasHighSchool" data-title="Y">YES</a>
+                                                        <a class="btn btn-primary btn-sm notActive"
+                                                            data-toggle="hasHighSchool" data-title="N">NO</a>
+                                                    </div>
+                                                    <input type="hidden" name="hasHighSchool" id="hasHighSchool">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-3 form-group">
+                                            <div class="col-lg-12 div-opacity">
+                                                <label for="hasListDate">Active</label>
+                                            </div>
+
+                                            <div class="col-lg-12 center">
+                                                <div class="input-group" style="display:grid;">
+                                                    <div id="radioBtn" class="btn-group radioBtn">
+                                                        <a class="btn btn-primary btn-sm active"
+                                                            data-toggle="hasListDate" data-title="Y">YES</a>
+                                                        <a class="btn btn-primary btn-sm notActive"
+                                                            data-toggle="hasListDate" data-title="N">NO</a>
+                                                    </div>
+                                                    <input type="hidden" name="hasListDate" id="hasListDate">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-lg-12 center">
+                                        <button class="btn btn-lg btn-primary" name="makePrediction"
+                                            value="makePrediction" type="submit">
+                                            Search
+                                        </button>
+                                    </div>
+                                </div><br>
+                            </div>
+                            {% endif %}
+
+                            {% if results == true%}
+                            <div class="col-lg-12">
+                                <br>
+                                <div class="row">
+                                    <div class="col-lg-12 center div-avg-price-chart">
+                                        <h2>Average House Prices in {{ zipCode }}</h2>
+                                        <canvas id="avgHousePrices" width="900" height="400" style="display:initial;">
+                                            <script>
+                                                const ctx = document.getElementById('avgHousePrices').getContext('2d');
+                                                const myChart = new Chart(ctx, {
+                                                    type: 'bar',
+                                                    data: {
+                                                        labels: {{ labels| safe}},
+                                                datasets: [{
+                                                    data: {{ values| safe}},
+                                                    backgroundColor: [
+                                                    'rgba(255, 99, 132, 0.2)',
+                                                    'rgba(54, 162, 235, 0.2)',
+                                                    'rgba(255, 206, 86, 0.2)',
+
+                                                ],
+                                                    borderColor: [
+                                                    'rgba(255, 99, 132, 1)',
+                                                    'rgba(54, 162, 235, 1)',
+                                                    'rgba(255, 206, 86, 1)',
+
+                                                ],
+                                                    borderWidth: 1
+                                                }]
+                                            },
+                                                options: {
+                                                    responsive: false,
+                                                        scales: {
+                                                        y: {
+                                                            beginAtZero: true
+                                                        }
+                                                    },
+                                                    plugins: {
+                                                        legend: {
+                                                            display: false
+                                                        }
+                                                    },
+                                                }
+                                        });
+                                            </script>
+                                        </canvas>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-lg-1"></div>
+                                    <div class="col-lg-10">
+                                        <!--Loop to iterate houses returned from the search input-->
+
+                                        <div class="row mb-3 content-box">
+
+                                            <div class="col-lg-8">
+                                                <div class="pb-3">
+                                                    <h3> 123 W Anywhere St<br></h3>
+                                                    <h5> City, State ZipCode</h5>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 content-justify">PLorem ipsum dolor sit amet,
+                                                        consectetur
+                                                        adipiscing
+                                                        elit,
+                                                        sed do eiusmod tempor incididunt ut labore et dolore magna
+                                                        aliqua. Ut enim
+                                                        ad minim
+                                                        veniam,
+                                                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                                                        commodo
+                                                        consequat.
+                                                        Duis
+                                                        aute
+                                                        irure dolor in reprehenderit in voluptate velit esse cillum
+                                                        dolore eu fugiat
+                                                        nulla
+                                                        pariatur.
+                                                        Excepteur sint occaecat cupidatat non proident, sunt in culpa
+                                                        qui officia
+                                                        deserunt
+                                                        mollit
+                                                        anim id est laborum.</div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col-lg-2 small"><strong>Days Active:</strong></div>
+                                                    <div class="col-lg-2  small">9</div>
+                                                    <div class="col-lg-2  small"><strong>Type:</strong></div>
+                                                    <div class="col-lg-2 small">SFR</div>
+                                                    <div class="col-lg-2  small"><strong>MLS Number:</strong></div>
+                                                    <div class="col-lg-2  small">3659863</div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-2  small"><strong>Bed(s):</strong></div>
+                                                    <div class="col-lg-2  small">4</div>
+                                                    <div class="col-lg-2  small"><strong>Bath(s):</strong></div>
+                                                    <div class="col-lg-2  small">3.5</div>
+                                                    <div class="col-lg-2  small"><strong>Garage(s):</strong></div>
+                                                    <div class="col-lg-2  small">3</div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-2  small"><strong>Year Built:</strong></div>
+                                                    <div class="col-lg-2  small">2012</div>
+                                                    <div class="col-lg-2  small"><strong>Sq. Feet:</strong></div>
+                                                    <div class="col-lg-2  small">3200</div>
+                                                    <div class="col-lg-2  small"><strong>Taxes:</strong></div>
+                                                    <div class="col-lg-2 small">$9500</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="row">
+                                                    <div class="col-lg-12 center chart-margin">
+                                                        <h3>
+                                                            $400,599 </h3>
+                                                    </div>
+                                                </div>
+                                                <div class="row ">
+                                                    <div class="col-lg-12 center chart-margin">
+                                                        <!--dynamic ID-->
+                                                        <canvas id="housePrice" width="300" height="300">
+                                                            <script>
+
+                                                                const ctxHousePrice = document.getElementById('housePrice').getContext('2d');
+                                                                const myHousePriceChart = new Chart(ctxHousePrice, {
+                                                                    type: 'bar',
+                                                                    data: {
+                                                                        labels: {{ perHouseLabels | safe}},
+                                                                datasets: [{
+                                                                    data: {{ perHouseValues| safe}},
+                                                                    backgroundColor: [
+                                                                    'rgba(255, 99, 132, 0.2)',
+                                                                    'rgba(54, 162, 235, 0.2)',
+                                                                    'rgba(255, 206, 86, 0.2)',
+
+                                                                ],
+                                                                    borderColor: [
+                                                                    'rgba(255, 99, 132, 1)',
+                                                                    'rgba(54, 162, 235, 1)',
+                                                                    'rgba(255, 206, 86, 1)',
+
+                                                                ],
+                                                                    borderWidth: 1
+                                    }]
+                                        },
+                                                                options: {
+                                                                    responsive: false,
+                                                                        scales: {
+                                                                        y: {
+                                                                            beginAtZero: true
+                                                                        }
+                                                                    },
+                                                                    plugins: {
+                                                                        legend: {
+                                                                            display: false
+                                                                        }
+                                                                    },
+                                                                }
+                                    });
+                                                            </script>
+                                                        </canvas>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!--end loop-->
+                                    </div>
+                                    <div class="col-lg-1"></div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-lg-1"></div>
+                                    <div class="col-lg-10">
+                                        <!--Loop to iterate houses returned from the search input-->
+
+                                        <div class="row mb-3 content-box">
+
+                                            <div class="col-lg-8">
+                                                <div class="pb-3">
+                                                    <h3> 987 S That Dr <br></h3>
+                                                    <h5> City, State ZipCode</h5>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 content-justify">PLorem ipsum dolor sit amet,
+                                                        consectetur
+                                                        adipiscing
+                                                        elit,
+                                                        sed do eiusmod tempor incididunt ut labore et dolore magna
+                                                        aliqua. Ut enim
+                                                        ad minim
+                                                        veniam,
+                                                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                                                        commodo
+                                                        consequat.
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col-lg-2 small"><strong>Days Active:</strong></div>
+                                                    <div class="col-lg-2  small">25</div>
+                                                    <div class="col-lg-2  small"><strong>Type:</strong></div>
+                                                    <div class="col-lg-2 small">SFR</div>
+                                                    <div class="col-lg-2  small"><strong>MLS Number:</strong></div>
+                                                    <div class="col-lg-2  small">896359</div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-2  small"><strong>Bed(s):</strong></div>
+                                                    <div class="col-lg-2  small">4</div>
+                                                    <div class="col-lg-2  small"><strong>Bath(s):</strong></div>
+                                                    <div class="col-lg-2  small">4</div>
+                                                    <div class="col-lg-2  small"><strong>Garage(s):</strong></div>
+                                                    <div class="col-lg-2  small">3</div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-2  small"><strong>Year Built:</strong></div>
+                                                    <div class="col-lg-2  small">2015</div>
+                                                    <div class="col-lg-2  small"><strong>Sq. Feet:</strong></div>
+                                                    <div class="col-lg-2  small">3350</div>
+                                                    <div class="col-lg-2  small"><strong>Taxes:</strong></div>
+                                                    <div class="col-lg-2 small">$9950</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="row">
+                                                    <div class="col-lg-12 center chart-margin">
+                                                        <h3>
+                                                            $450,000 </h3>
+                                                    </div>
+                                                </div>
+                                                <div class="row ">
+                                                    <div class="col-lg-12 center chart-margin">
+                                                        <!--dynamic ID-->
+                                                        <canvas id="housePrice2" width="300" height="300">
+                                                            <script>
+
+                                                                const ctxHousePrice2 = document.getElementById('housePrice2').getContext('2d');
+                                                                const myHousePriceChart2 = new Chart(ctxHousePrice2, {
+                                                                    type: 'bar',
+                                                                    data: {
+                                                                        labels: {{ perHouseLabels | safe}},
+                                                                datasets: [{
+                                                                    data: {{ perHouseValues| safe}},
+                                                                    backgroundColor: [
+                                                                    'rgba(255, 99, 132, 0.2)',
+                                                                    'rgba(54, 162, 235, 0.2)',
+                                                                    'rgba(255, 206, 86, 0.2)',
+
+                                                                ],
+                                                                    borderColor: [
+                                                                    'rgba(255, 99, 132, 1)',
+                                                                    'rgba(54, 162, 235, 1)',
+                                                                    'rgba(255, 206, 86, 1)',
+
+                                                                ],
+                                                                    borderWidth: 1
+                                    }]
+                                        },
+                                                                options: {
+                                                                    responsive: false,
+                                                                        scales: {
+                                                                        y: {
+                                                                            beginAtZero: true
+                                                                        }
+                                                                    },
+                                                                    plugins: {
+                                                                        legend: {
+                                                                            display: false
+                                                                        }
+                                                                    },
+                                                                }
+                                    });
+                                                            </script>
+                                                        </canvas>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!--end loop-->
+                                    </div>
+                                    <div class="col-lg-1"></div>
+                                </div>
+
+
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+
+        </div>
+
+
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <div class="col-md-4 d-flex align-items-center">
+                <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+                    <span class="fs-4"> <img
+                            src="C:\14a\Labs\PricePredictions\2021-fa-t4-Price-Predictions\predictions-app\static\images\house-price.png"
+                            width="50px;" height="50px;"></span>
+                </a>
+                <span class="text-muted">&copy; 2021 Price Predictor, Inc</span>
+            </div>
+
+            <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+                <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24">
+                            <use xlink:href="#twitter" />
+                        </svg></a></li>
+                <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24">
+                            <use xlink:href="#instagram" />
+                        </svg></a></li>
+                <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24">
+                            <use xlink:href="#facebook" />
+                        </svg></a></li>
+            </ul>
+        </footer>
+
+    </div>
+    <!-- Icons Grid -->
+    <script
+        src="C:\14a\Labs\PricePredictions\2021-fa-t4-Price-Predictions\predictions-app\static\scripts\predictions.js"></script>
+
+</body>
+
+</html>

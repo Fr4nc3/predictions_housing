@@ -1,0 +1,14 @@
+{
+  "name": "serverless-flask-pp-app",
+  "description": "",
+  "version": "0.1.0",
+  "dependencies": {},
+  "devDependencies": {
+    "serverless": "^2.66.2",
+    "serverless-apigwy-binary": "^1.0.1",
+    "serverless-plugin-warmup": "^6.0.0",
+    "serverless-prune-plugin": "^1.6.1",
+    "serverless-python-requirements": "^5.2.0",
+    "serverless-wsgi": "^2.0.2"
+  }
+}

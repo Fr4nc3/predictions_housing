@@ -1,0 +1,87 @@
+name: AWS Deploy
+defaults:
+  run:
+    working-directory: "./predictions-app"
+on: [push]
+env:
+  AWS_PROFILE: ${{ secrets.AWS_PROFILE }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+  SYSTEM_VERSION_COMPAT: ${{ secrets.SYSTEM_VERSION_COMPAT }}
+  BUCKET_URI: ${{ secrets.BUCKET_URI}}
+jobs:
+  test:
+    name: test develop
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "./predictions-app"
+    env:
+      working-directory: "./predictions-app"
+    if: github.ref == 'refs/heads/develop'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install apt-get update
+        run: |
+          sudo apt-get update
+      - name: Install python app
+        run: |
+          python -m pip install --upgrade pipenv
+          pipenv install --deploy
+        working-directory: ${{env.working-directory}}
+  submit:
+    name: Submit to AWS
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "./predictions-app"
+    env:
+      working-directory: "./predictions-app"
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12"
+      - run: npm install
+        working-directory: ${{env.working-directory}}
+      - name: Install apt-get update
+        run: |
+          sudo apt-get update
+      - name: Install serverless
+        run: |
+          npm install serverless -g
+        working-directory: ${{env.working-directory}}
+      - name: Install awscli
+        run: |
+          sudo apt-get install awscli
+      - name: Install python app
+        run: |
+          python -m pip install --upgrade pipenv
+          pipenv install --deploy
+        working-directory: ${{env.working-directory}}
+      - name: Set up Docker
+        uses: docker-practice/actions-setup-docker@master
+      - name: Deploy Python App to AWS Lambda
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region  ${{ secrets.AWS_REGION }}
+          serverless deploy
+        working-directory: ${{env.working-directory}}

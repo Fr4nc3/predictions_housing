@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "*"
+gunicorn = "*"
+jinja2 = "*"
+python-dateutil = "*"
+requests = "*"
+boto3 = "*"
+scikit-learn = "*"
+flask-wtf = "*"
+flask-sqlalchemy = "*"
+wtforms = "*"
+psycopg2-binary = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"

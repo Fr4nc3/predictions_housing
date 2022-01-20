@@ -1,0 +1,68 @@
+service: serverless-flask-pp-app
+frameworkVersion: "2 || 3"
+
+plugins:
+  - serverless-python-requirements
+  - serverless-apigwy-binary
+  - serverless-prune-plugin
+  - serverless-wsgi
+
+custom:
+  apigwBinary:
+    types:
+      - "image/jpeg"
+      - "image/png"
+  prune:
+    automatic: true
+    number: 3
+  pythonRequirements:
+    slim: true
+    strip: false
+    zip: true
+  scriptable:
+    hooks:
+      after:package:createDeploymentArtifacts:
+        - ./shake.sh
+  tableName: "properties"
+  wsgi:
+    app: routes.app
+    packRequirements: false
+
+provider:
+  name: aws
+  runtime: python3.8
+  stage: dev
+  region: us-east-1
+  lambdaHashingVersion: 20201221
+  environment:
+    PROPERTIES_TABLE: "properties"
+    USERS_TABLE: "users"
+    POSTGRES_HOST: ""
+    POSTGRES_DB: "postgres"
+    POSTGRES_USER: "postgres"
+    POSTGRES_PASSW: ""
+    POSTGRES_PORT: "5432"
+    IS_SERVER: True
+  exclude:
+    - .git/**
+    - .vscode/**
+    - node_modules/**
+    - venv/**
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - ec2:CreateNetworkInterface
+        - ec2:DescribeNetworkInterfaces
+        - ec2:DeleteNetworkInterface
+      Resource: "*"
+
+functions:
+  app:
+    handler: wsgi_handler.handler
+    events:
+      - http: ANY /
+        contentHandling: CONVERT_TO_BINARY
+      - http: POST /predict
+      - http: POST /logout
+      - http: ANY {proxy+}
+        contentHandling: CONVERT_TO_BINARY
